@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "Andromeda Neoim Config Flake";
 
   outputs = inputs @ {
     self,
@@ -63,10 +63,10 @@
           modules = [
             {
               vim.syntaxHighlighting = false;
-              # vim.languages.bash.enable = true;
+              vim.languages.bash.enable = true;
               # vim.languages.html.enable = true;
-              # vim.filetree.nvimTreeLua.enable = false;
-              # vim.languages.nix.format.type = "nixpkgs-fmt";
+              vim.filetree.nvimTreeLua.enable = false;
+              vim.languages.nix.format.type = "alejandra";
             }
           ];
         };
@@ -138,13 +138,96 @@
   #* PLUGINS
   #************
   inputs = {
+    # Autocompletes
+    plugin-cmp-buffer.url = "github:hrsh7th/cmp-buffer";
+    plugin-cmp-buffer.flake = false;
+
+    plugin-cmp-dap.url = "github:rcarriga/cmp-dap";
+    plugin-cmp-dap.flake = false;
+
+    plugin-cmp-nvim-lsp.url = "github:hrsh7th/cmp-nvim-lsp";
+    plugin-cmp-nvim-lsp.flake = false;
+
+    plugin-cmp-path.url = "github:hrsh7th/cmp-path";
+    plugin-cmp-path.flake = false;
+
+    plugin-cmp-vsnip.url = "github:hrsh7th/cmp-vsnip";
+    plugin-cmp-vsnip.flake = false;
+
+    plugin-cmp-treesitter.url = "github:ray-x/cmp-treesitter";
+    plugin-cmp-treesitter.flake = false;
+
+    plugin-nvim-cmp.url = "github:hrsh7th/nvim-cmp";
+    plugin-nvim-cmp.flake = false;
+
+    # Autopairs
+    plugin-nvim-autopairs.url = "github:windwp/nvim-autopairs";
+    plugin-nvim-autopairs.flake = false;
+
+    # Filetrees
+    plugin-nvim-tree-lua.url = "github:kyazdani42/nvim-tree.lua";
+    plugin-nvim-tree-lua.flake = false;
+
     # Key binding help
     plugin-which-key.url = "github:folke/which-key.nvim";
     plugin-which-key.flake = false;
 
+    # LSP plugins
+    plugin-nvim-lspconfig.url = "github:neovim/nvim-lspconfig";
+    plugin-nvim-lspconfig.flake = false;
+
+    plugin-lspkind.url = "github:onsails/lspkind-nvim";
+    plugin-lspkind.flake = false;
+
     # Plenary (required by crates-nvim)
     plugin-plenary-nvim.url = "github:nvim-lua/plenary.nvim";
     plugin-plenary-nvim.flake = false;
+
+    # snippets
+    plugin-vim-vsnip.url = "github:hrsh7th/vim-vsnip";
+    plugin-vim-vsnip.flake = false;
+
+    # Statuslines
+    plugin-lualine.url = "github:hoob3rt/lualine.nvim";
+    plugin-lualine.flake = false;
+
+    # Telescope
+    plugin-telescope.url = "github:nvim-telescope/telescope.nvim";
+    plugin-telescope.flake = false;
+
+    plugin-telescope-file-browser.url = "github:nvim-telescope/telescope-file-browser.nvim";
+    plugin-telescope-file-browser.flake = false;
+
+    plugin-telescope-live-grep-args.url = "github:nvim-telescope/telescope-live-grep-args.nvim";
+    plugin-telescope-live-grep-args.flake = false;
+
+    # tresitter plugins
+    plugin-nvim-treesitter-context.url = "github:nvim-treesitter/nvim-treesitter-context";
+    plugin-nvim-treesitter-context.flake = false;
+  };
+
+  #************
+  #* THEMES
+  #************
+  inputs = {
+    # Themes
+    plugin-tokyonight.url = "github:folke/tokyonight.nvim";
+    plugin-tokyonight.flake = false;
+
+    plugin-onedark.url = "github:navarasu/onedark.nvim";
+    plugin-onedark.flake = false;
+
+    plugin-catppuccin.url = "github:catppuccin/nvim";
+    plugin-catppuccin.flake = false;
+
+    plugin-dracula-nvim.url = "github:Mofiqul/dracula.nvim";
+    plugin-dracula-nvim.flake = false;
+
+    plugin-dracula.url = "github:dracula/vim";
+    plugin-dracula.flake = false;
+
+    plugin-gruvbox.url = "github:ellisonleao/gruvbox.nvim";
+    plugin-gruvbox.flake = false;
   };
 
   #***********************

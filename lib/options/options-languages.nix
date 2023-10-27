@@ -3,12 +3,12 @@ with lib; let
   diagnosticSubmodule = _: {
     options = {
       type = mkOption {
-        description = "Type of diagnostic to enable";
         type = attrNames diagnostics;
+        description = "Type of diagnostic to enable";
       };
       package = mkOption {
-        description = "Diagnostics package";
         type = types.package;
+        description = "Diagnostics package";
       };
     };
   };
@@ -19,9 +19,9 @@ in {
     defaultDiagnostics,
   }:
     mkOption {
+      default = defaultDiagnostics;
       description = "List of ${langDesc} diagnostics to enable";
       type = with types; listOf (either (enum (attrNames diagnostics)) (submodule diagnosticSubmodule));
-      default = defaultDiagnostics;
     };
 
   mkGrammarOption = pkgs: grammar:
@@ -30,12 +30,12 @@ in {
     };
 
   mkCommandOption = pkgs: {
-    description,
     package,
+    description,
   }:
     mkPackageOption pkgs [description] {
-      extraDescription = "Providing null will use command in $PATH.";
-      default = package;
       nullable = true;
+      default = package;
+      extraDescription = "Providing null will use command in $PATH.";
     };
 }

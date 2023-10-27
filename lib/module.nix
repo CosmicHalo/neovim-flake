@@ -1,6 +1,8 @@
-{lib, ...}: {
+{lib, ...}: rec {
+  getModuleDirs = path: lib.andromeda.fs.get-directories (lib.andromeda.fs.get-file path);
+
   loadModules = pkgs: check: let
-    mods = lib.andromeda.fs.get-directories (lib.andromeda.fs.get-file "modules");
+    mods = getModuleDirs "modules";
 
     pkgsModule = {config, ...}: {
       config = {
