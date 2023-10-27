@@ -17,7 +17,7 @@
         "dirtyRev": "50d483e727fa156b163420f587d73656b457d0d4-dirty",
         "dirtyShortRev": "50d483e-dirty",
         "lastModified": 1698280822,
-        "narHash": "sha256-hNp4wwYo44QGmPH6T48OY6TqJ7OQGRIXAJC/JBJWrZM=",
+        "narHash": "sha256-ZMvnLWDlneZZ/jl84Xh+3Mqys6wn4uJ2Ww00/DA7ZLk=",
         "type": "git",
         "url": "file:///home/n16hth4wk/dev/nixos/lib"
       },
@@ -307,11 +307,11 @@
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1698277349,
-        "narHash": "sha256-uEBZSQEn4mDowhdH0QIDGORFtzqY7y4K+bZpiSRc6x0=",
+        "lastModified": 1698359872,
+        "narHash": "sha256-/migmIszx7Kqa/x9I6hKYATeFSpZ7P+6NKRDA1nkZfk=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "f2fc44550fbe5b7ebfedc2b155dc41e93f49aedb",
+        "rev": "9dc440400cdb470b317c4169ba916e1cd9a316e1",
         "type": "github"
       },
       "original": {
@@ -332,11 +332,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698278488,
-        "narHash": "sha256-wIAyepCJao8wqKi1Pi9014r7rc7dHxkwdlfE92XFMjM=",
+        "lastModified": 1698364851,
+        "narHash": "sha256-UQqC71YP6B5uOQ8HZRWQsbiMDKIROLhSNlnFPnDP27Y=",
         "owner": "nix-community",
         "repo": "neovim-nightly-overlay",
-        "rev": "11e493ce9fdab9bf7462c5a343a940858387b35a",
+        "rev": "dacbb092b5d6e97127b3e57007474a5c47305164",
         "type": "github"
       },
       "original": {
@@ -433,6 +433,22 @@
         "type": "github"
       }
     },
+    "plugin-which-key": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697801635,
+        "narHash": "sha256-uvghPj/teWrRMm09Gh8iQ/LV2nYJw0lmoiZK6L4+1cY=",
+        "owner": "folke",
+        "repo": "which-key.nvim",
+        "rev": "4433e5ec9a507e5097571ed55c02ea9658fb268a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "folke",
+        "repo": "which-key.nvim",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": [
@@ -511,6 +527,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable_2",
         "plugin-plenary-nvim": "plugin-plenary-nvim",
+        "plugin-which-key": "plugin-which-key",
         "pre-commit-hooks": "pre-commit-hooks_2"
       }
     },

@@ -1,17 +1,13 @@
 {
+  lib,
   pkgs,
   check ? true,
-  lib ? pkgs.lib,
   modules ? [],
   extraSpecialArgs ? {},
-  extendedLib ? (import ../lib/stdlib-extended.nix lib),
 }: let
-  nvimModules = import ./modules.nix {
-    inherit check pkgs;
-    lib = extendedLib;
-  };
+  nvimModules = lib.nvim.module.loadModules pkgs check;
 
-  module = extendedLib.evalModules {
+  module = lib.evalModules {
     modules = modules ++ nvimModules;
     specialArgs =
       {

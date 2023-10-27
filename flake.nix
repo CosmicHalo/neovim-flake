@@ -8,35 +8,35 @@
     nixpkgs,
     ...
   }: let
-    core-inputs =
-      inputs
-      // {
-        src = ./.;
-      };
+    core-inputs = inputs // {src = ./.;};
+    lib = import ./andromeda-lib core-inputs;
 
-    internalLib = import ./andromeda-lib core-inputs;
+    inherit (lib.nvim.plugins) rawPlugins;
 
-    extendedLib = import ./lib/stdlib-extended.nix nixpkgs.lib;
-    nvimLib = extendedLib.nvim;
-
-    rawPlugins = nvimLib.plugins.pluginsFromInputs inputs;
+    #***********
+    #* BUIILD
+    #***********
     neovimConfiguration = {modules ? [], ...} @ args:
       import ./modules
       (args
         // {
-          inherit extendedLib;
+          inherit lib;
           modules = [{config.build.rawPlugins = rawPlugins;}] ++ modules;
         });
 
     nvimBin = pkg: "${pkg}/bin/nvim";
-    buildPkg = pkgs: modules: (neovimConfiguration {inherit pkgs modules;});
+    buildPkg = pkgs: modules: (neovimConfiguration {
+      inherit pkgs modules;
+    });
 
-    mainConfig = import ./config.nix {lib = nixpkgs.lib;};
+    #***********
+    #* CONFIG
+    #***********
+    mainConfig = import ./config.nix {inherit lib;};
     nixConfig = mainConfig false;
   in
     fup.lib.mkFlake {
-      inherit self inputs internalLib;
-
+      inherit self inputs lib;
       channelsConfig.allowUnfree = true;
 
       ###########
@@ -73,11 +73,6 @@
       in
         # Core Outputs
         {
-          lib = {
-            nvim = nvimLib;
-            inherit neovimConfiguration;
-          };
-
           apps = rec {
             default = nix;
             nix = {
@@ -91,8 +86,8 @@
             default = nixPkg;
           };
         }
-        # Dev Outputs
         // {
+          # Dev Outputs
           formatter = channels.nixpkgs.alejandra;
           devShell = channels.nixpkgs.mkShell {nativeBuildInputs = [devPkg];};
           checks.pre-commit-check = inputs.pre-commit-hooks.lib.${channels.nixpkgs.system}.run {
@@ -143,6 +138,10 @@
   #* PLUGINS
   #************
   inputs = {
+    # Key binding help
+    plugin-which-key.url = "github:folke/which-key.nvim";
+    plugin-which-key.flake = false;
+
     # Plenary (required by crates-nvim)
     plugin-plenary-nvim.url = "github:nvim-lua/plenary.nvim";
     plugin-plenary-nvim.flake = false;

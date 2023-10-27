@@ -4,7 +4,8 @@
   ...
 }:
 with lib;
-with builtins; let
+with builtins;
+with lib.andromeda; let
   cfg = config.vim;
 
   wrapLuaConfig = luaConfig: ''
@@ -13,94 +14,42 @@ with builtins; let
     EOF
   '';
 
-  mkMappingOption = it:
-    mkOption ({
-        default = {};
-        type = with types; attrsOf (nullOr str);
-      }
-      // it);
+  mkMappingOption = desc: mkOpt (with types; attrsOf (nullOr str)) {} desc;
 in {
-  options.vim = {
-    configRC = mkOption {
-      description = "vimrc contents";
-      type = nvim.types.dagOf types.lines;
-      default = {};
-    };
-
-    luaConfigRC = mkOption {
-      description = "vim lua config";
-      type = nvim.types.dagOf types.lines;
-      default = {};
-    };
+  options.vim = with types; {
+    configRC = mkOpt (nvim.types.dagOf lines) {} "vimrc contents";
+    luaConfigRC = mkOpt (nvim.types.dagOf lines) {} "vim lua config";
+    globals = mkOpt attrs {} "Set containing global variable values";
 
     startPlugins = nvim.options.mkPluginsOption {
       default = [];
-      rawPlugins = config.build.rawPlugins;
+      inherit (config.build) rawPlugins;
       description = "List of plugins to startup.";
     };
 
     optPlugins = nvim.options.mkPluginsOption {
-      rawPlugins = config.build.rawPlugins;
+      inherit (config.build) rawPlugins;
       default = [];
       description = "List of plugins to optionally load";
     };
 
-    globals = mkOption {
-      default = {};
-      description = "Set containing global variable values";
-      type = types.attrs;
-    };
+    nnoremap = mkMappingOption "Defines 'Normal mode' mappings";
+    xnoremap = mkMappingOption "Defines 'Visual mode' mappings";
+    snoremap = mkMappingOption "Defines 'Select mode' mappings";
+    tnoremap = mkMappingOption "Defines 'Terminal mode' mappings";
+    cnoremap = mkMappingOption "Defines 'Command-line mode' mappings";
+    onoremap = mkMappingOption "Defines 'Operator pending mode' mappings";
+    vnoremap = mkMappingOption "Defines 'Visual and Select mode' mappings";
+    inoremap = mkMappingOption "Defines 'Insert and Replace mode' mappings";
 
-    nnoremap =
-      mkMappingOption {description = "Defines 'Normal mode' mappings";};
-
-    inoremap = mkMappingOption {
-      description = "Defines 'Insert and Replace mode' mappings";
-    };
-
-    vnoremap = mkMappingOption {
-      description = "Defines 'Visual and Select mode' mappings";
-    };
-
-    xnoremap =
-      mkMappingOption {description = "Defines 'Visual mode' mappings";};
-
-    snoremap =
-      mkMappingOption {description = "Defines 'Select mode' mappings";};
-
-    cnoremap =
-      mkMappingOption {description = "Defines 'Command-line mode' mappings";};
-
-    onoremap = mkMappingOption {
-      description = "Defines 'Operator pending mode' mappings";
-    };
-
-    tnoremap =
-      mkMappingOption {description = "Defines 'Terminal mode' mappings";};
-
-    nmap = mkMappingOption {description = "Defines 'Normal mode' mappings";};
-
-    imap = mkMappingOption {
-      description = "Defines 'Insert and Replace mode' mappings";
-    };
-
-    vmap = mkMappingOption {
-      description = "Defines 'Visual and Select mode' mappings";
-    };
-
-    xmap = mkMappingOption {description = "Defines 'Visual mode' mappings";};
-
-    smap = mkMappingOption {description = "Defines 'Select mode' mappings";};
-
-    cmap =
-      mkMappingOption {description = "Defines 'Command-line mode' mappings";};
-
-    omap = mkMappingOption {
-      description = "Defines 'Operator pending mode' mappings";
-    };
-
-    tmap =
-      mkMappingOption {description = "Defines 'Terminal mode' mappings";};
+    nmap = mkMappingOption "Defines 'Normal mode' mappings";
+    xmap = mkMappingOption "Defines 'Visual mode' mappings";
+    smap = mkMappingOption "Defines 'Select mode' mappings";
+    tmap = mkMappingOption "Defines 'Terminal mode' mappings";
+    cmap = mkMappingOption "Defines 'Command-line mode' mappings";
+    omap = mkMappingOption "Defines 'Operator pending mode' mappings";
+    vmap = mkMappingOption "Defines 'Visual and Select mode' mappings";
+    imap = mkMappingOption "Defines 'Insert and Replace mode' mappings";
   };
 
   config = let
@@ -119,18 +68,20 @@ in {
           else (toJSON val)
         );
 
+    matchCtrl = it: match "Ctrl-(.)(.*)" it;
     filterNonNull = mappings: filterAttrs (name: value: value != null) mappings;
+
     globalsScript =
       mapAttrsFlatten (name: value: "let g:${name}=${valToVim value}")
       (filterNonNull cfg.globals);
 
-    matchCtrl = it: match "Ctrl-(.)(.*)" it;
     mapKeyBinding = it: let
       groups = matchCtrl it;
     in
       if groups == null
       then it
       else "<C-${toUpper (head groups)}>${head (tail groups)}";
+
     mapVimBinding = prefix: mappings:
       mapAttrsFlatten (name: value: "${prefix} ${mapKeyBinding name} ${value}")
       (filterNonNull mappings);

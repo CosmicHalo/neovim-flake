@@ -1,4 +1,4 @@
-{
+top @ {
   lib,
   pkgs,
   config,
@@ -6,92 +6,57 @@
   ...
 }:
 with lib;
-with builtins; let
-  cfgBuild = config.build;
-  cfgBuilt = config.built;
+with builtins;
+with lib.andromeda; let
   cfgVim = config.vim;
+  cfgBuilt = config.built;
+  cfgBuild = config.build;
 
-  inputsSubmodule = {...}: {
-    options.src = mkOption {
-      description = "The plugin source";
-      type = types.package;
-    };
+  inputsSubmodule = _: {
+    options.src = mkNullOpt types.package "The plugin source";
   };
-in {
-  options = {
-    assertions = lib.mkOption {
-      type = types.listOf types.unspecified;
-      internal = true;
-      default = [];
-      example = [
-        {
-          assertion = false;
-          message = "you can't enable this for that reason";
-        }
-      ];
-    };
 
-    warnings = mkOption {
-      internal = true;
-      default = [];
-      type = types.listOf types.str;
-      example = ["The `foo' service is deprecated and will go away soon!"];
-      description = lib.mdDoc ''
-        This option allows modules to show warnings to users during
-        the evaluation of the system configuration.
-      '';
+  mkInternalOpt = type: default: description: example:
+    (mkOptWithExample type default description example)
+    // {internal = true;};
+
+  mkReadonlyOpt = type: description:
+    mkOption {
+      inherit description type;
+      readOnly = true;
     };
+in {
+  options = with types; {
+    assertions = mkInternalOpt (listOf unspecified) [] "Assertions to check during evaluation" [
+      {
+        assertion = false;
+        message = "you can't enable this for that reason";
+      }
+    ];
+
+    warnings = mkInternalOpt (listOf str) [] ''
+      This option allows modules to show warnings to users during
+      the evaluation of the system configuration.
+    '' ["The `foo' service is deprecated and will go away soon!"];
 
     build = {
-      viAlias = mkOption {
-        description = "Enable vi alias";
-        type = types.bool;
-        default = true;
-      };
+      viAlias = mkBoolOpt true "Enable vi alias";
+      vimAlias = mkBoolOpt true "Enable vim alias";
 
-      vimAlias = mkOption {
-        description = "Enable vim alias";
-        type = types.bool;
-        default = true;
-      };
+      package =
+        mkOpt package pkgs.neovim-unwrapped
+        "Neovim to use for neovim-flake";
 
-      rawPlugins = mkOption {
-        description = "Plugins that are just the source, usually from a flake input";
-        type = with types; attrsOf (submodule inputsSubmodule);
-        default = {};
-      };
-
-      package = mkOption {
-        description = "Neovim to use for neovim-flake";
-        type = types.package;
-        default = pkgs.neovim-unwrapped;
-      };
+      rawPlugins =
+        mkOpt (attrsOf (submodule inputsSubmodule)) {}
+        "Plugins that are just the source, usually from a flake input";
     };
 
     built = {
-      configRC = mkOption {
-        description = "The final built config";
-        type = types.lines;
-        readOnly = true;
-      };
-
-      startPlugins = mkOption {
-        readOnly = true;
-        description = "The final built start plugins";
-        type = with types; listOf package;
-      };
-
-      optPlugins = mkOption {
-        description = "The final built opt plugins";
-        type = with types; listOf package;
-        readOnly = true;
-      };
-
-      package = mkOption {
-        description = "The final wrapped and configured neovim package";
-        type = types.package;
-        readOnly = true;
-      };
+      configRC = mkReadonlyOpt lines "The final built config";
+      optPlugins = mkReadonlyOpt (listOf package) "The final built opt plugins";
+      startPlugins = mkReadonlyOpt (listOf package) "The final built start plugins";
+      package = mkReadonlyOpt package "The final wrapped and configured neovim package";
     };
   };
 
@@ -183,16 +148,16 @@ in {
             oldAttrs.passthru
             // {
               extendConfiguration = {
+                lib ? top.lib,
                 modules ? [],
-                lib ? pkgs.lib,
                 extraSpecialArgs ? {},
                 pkgs ? config._module.args.pkgs,
                 check ? config._module.args.check,
               }:
                 import ../../modules {
+                  inherit pkgs lib;
                   modules = currentModules ++ modules;
                   extraSpecialArgs = config._module.specialArgs // extraSpecialArgs;
-                  inherit pkgs lib;
                 };
             };
           meta =

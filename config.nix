@@ -21,10 +21,10 @@ in
       #   gitsigns.codeActions = overrideable true;
       # };
 
-      # vim.keys = {
-      #   enable = overrideable true;
-      #   whichKey.enable = overrideable true;
-      # };
+      vim.keys = {
+        enable = overrideable true;
+        whichKey.enable = overrideable true;
+      };
 
       # vim.languages = {
       #   enableLSP = overrideable true;

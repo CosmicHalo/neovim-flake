@@ -1,11 +1,14 @@
-{lib}: {
+{
+  lib,
+  inputs,
+}: {
   nvim = {
-    build = import ./build {inherit lib;};
-    dag = import ./dag {inherit lib;};
-    languages = import ./languages {inherit lib;};
-    lua = import ./lua {inherit lib;};
-    options = import ./options {inherit lib;};
-    plugins = import ./plugins {inherit lib;};
-    types = import ./types {inherit lib;};
+    dag = import ./dag.nix {inherit lib;};
+    languages = import ./lang.nix {inherit lib;};
+    lua = import ./lua.nix {inherit lib;};
+    module = import ./module.nix {inherit lib;};
+    options = import ./options/module.nix {inherit lib;};
+    plugins = import ./plugins.nix {inherit lib inputs;};
+    types = import ./types/module.nix {inherit lib;};
   };
 }

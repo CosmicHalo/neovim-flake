@@ -59,7 +59,7 @@ core-inputs: let
     core-inputs.nixpkgs.lib
     core-inputs-libs
     andromeda-top-level-lib
-    {andromeda = andromeda-lib;}
+    {andromeda = andromeda-lib // andromeda-lib.module;}
   ];
 
   /*
@@ -84,9 +84,13 @@ core-inputs: let
       merge-deep libs
   );
 
-  lib = merge-deep [
+  mergedLib = merge-deep [
     base-lib
     user-lib
   ];
+
+  lib = core-inputs.nixpkgs.lib.extend (
+    self: super: mergedLib // super
+  );
 in
   lib

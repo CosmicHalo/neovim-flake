@@ -1,10 +1,10 @@
 # From home-manager: https://github.com/nix-community/home-manager/blob/master/modules/lib/types-dag.nix
 # Used for ordering config text.
 {lib}: let
+  inherit (lib.internal) nvim;
   inherit
     (lib)
     defaultFunctor
-    nvim
     mkIf
     mkOrder
     mkOption

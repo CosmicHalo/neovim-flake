@@ -4,149 +4,62 @@
   ...
 }:
 with lib;
-with builtins; let
+with builtins;
+with lib.andromeda; let
   cfg = config.vim;
 in {
-  options.vim = {
-    colourTerm = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Set terminal up for 256 colours";
-    };
+  options.vim = with types; {
+    tabWidth = mkOpt int 4 "Set the width of tabs";
+    autoIndent = mkBoolOpt true "Enable auto indent";
+    wordWrap = mkBoolOpt true "Enable word wrapping.";
+    cmdHeight = mkOpt int 1 "Height of the command pane";
+    showSignColumn = mkBoolOpt true "Show the sign column";
+    colorTerm = mkBoolOpt true "Set terminal up for 256 colours";
+    splitRight = mkBoolOpt true "New splits will open to the right";
+    syntaxHighlighting = mkBoolOpt true "Enable syntax highlighting";
+    mapLeaderSpace = mkBoolOpt true "Map the space key to leader key";
+    splitBelow = mkBoolOpt true "New splits will open below instead of on top";
+    disableArrows = mkBoolOpt false "Set to prevent arrow keys from moving cursor";
+    preventJunkFiles = mkBoolOpt false "Prevent swapfile, backupfile from being created";
+    updateTime = mkOpt int 300 "The number of milliseconds till Cursor Hold event is fired";
+    hideSearchHighlight = mkBoolOpt false "Hide search highlight so it doesn't stay highlighted";
+    mapTimeout = mkOpt int 500 "Timeout in ms that neovim will wait for mapped action to complete";
+    scrollOffset = mkOpt int 0 "Start scrolling this number of lines from the top or bottom of the page.";
+    bell = mkOpt (enum ["none" "visual" "on"]) "none" "Set how bells are handled. Options: on, visual or none";
 
-    disableArrows = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Set to prevent arrow keys from moving cursor";
-    };
+    useSystemClipboard =
+      mkBoolOpt true
+      "Make use of the clipboard for default yank and paste operations. Don't use * and +";
 
-    hideSearchHighlight = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Hide search highlight so it doesn't stay highlighted";
-    };
+    mouseSupport =
+      mkOpt (enum ["a" "n" "v" "i" "c"]) "a"
+      "Set modes for mouse support. a - all, n - normal, v - visual, i - insert, c - command";
 
-    scrollOffset = mkOption {
-      type = types.int;
-      default = 0;
-      description = "Start scrolling this number of lines from the top or bottom of the page.";
-    };
-
-    wordWrap = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Enable word wrapping.";
-    };
-
-    syntaxHighlighting = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Enable syntax highlighting";
-    };
-
-    mapLeaderSpace = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Map the space key to leader key";
-    };
-
-    useSystemClipboard = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Make use of the clipboard for default yank and paste operations. Don't use * and +";
-    };
-
-    mouseSupport = mkOption {
-      type = with types; enum ["a" "n" "v" "i" "c"];
-      default = "a";
-      description = "Set modes for mouse support. a - all, n - normal, v - visual, i - insert, c - command";
-    };
-
-    lineNumberMode = mkOption {
-      type = with types; enum ["relative" "number" "relNumber" "none"];
-      default = "relNumber";
-      description = "How line numbers are displayed. none, relative, number, relNumber";
-    };
-
-    preventJunkFiles = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Prevent swapfile, backupfile from being created";
-    };
-
-    tabWidth = mkOption {
-      type = types.int;
-      default = 4;
-      description = "Set the width of tabs";
-    };
-
-    autoIndent = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Enable auto indent";
-    };
-
-    cmdHeight = mkOption {
-      type = types.int;
-      default = 1;
-      description = "Height of the command pane";
-    };
-
-    updateTime = mkOption {
-      type = types.int;
-      default = 300;
-      description = "The number of milliseconds till Cursor Hold event is fired";
-    };
-
-    showSignColumn = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Show the sign column";
-    };
-
-    bell = mkOption {
-      type = types.enum ["none" "visual" "on"];
-      default = "none";
-      description = "Set how bells are handled. Options: on, visual or none";
-    };
-
-    mapTimeout = mkOption {
-      type = types.int;
-      default = 500;
-      description = "Timeout in ms that neovim will wait for mapped action to complete";
-    };
-
-    splitBelow = mkOption {
-      type = types.bool;
-      default = true;
-      description = "New splits will open below instead of on top";
-    };
-
-    splitRight = mkOption {
-      type = types.bool;
-      default = true;
-      description = "New splits will open to the right";
-    };
+    lineNumberMode =
+      mkOpt (enum ["relative" "number" "relNumber" "none"]) "relNumber"
+      "How line numbers are displayed. none, relative, number, relNumber";
   };
 
   config = {
-    vim.startPlugins = ["plenary-nvim"];
+    vim = {
+      startPlugins = ["plenary-nvim"];
 
-    vim.nmap = mkIf cfg.disableArrows {
-      "<up>" = "<nop>";
-      "<down>" = "<nop>";
-      "<left>" = "<nop>";
-      "<right>" = "<nop>";
+      nmap = mkIf cfg.disableArrows {
+        "<up>" = "<nop>";
+        "<down>" = "<nop>";
+        "<left>" = "<nop>";
+        "<right>" = "<nop>";
+      };
+
+      imap = mkIf cfg.disableArrows {
+        "<up>" = "<nop>";
+        "<down>" = "<nop>";
+        "<left>" = "<nop>";
+        "<right>" = "<nop>";
+      };
+
+      nnoremap = mkIf cfg.mapLeaderSpace {"<space>" = "<nop>";};
     };
-
-    vim.imap = mkIf cfg.disableArrows {
-      "<up>" = "<nop>";
-      "<down>" = "<nop>";
-      "<left>" = "<nop>";
-      "<right>" = "<nop>";
-    };
-
-    vim.nnoremap = mkIf cfg.mapLeaderSpace {"<space>" = "<nop>";};
 
     vim.configRC.basic = nvim.dag.entryAfter ["globalsScript"] ''
       " Settings that are set for everything
@@ -216,7 +129,7 @@ in {
         set nohlsearch
         set incsearch
       ''}
-      ${optionalString cfg.colourTerm ''
+      ${optionalString cfg.colorTerm ''
         set termguicolors
         set t_Co=256
       ''}

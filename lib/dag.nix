@@ -8,7 +8,8 @@
 #  - the addition of the function `entryBefore` indicating a "wanted
 #    by" relationship.
 {lib}: let
-  inherit (lib) all filterAttrs nvim mapAttrs toposort;
+  inherit (lib) all filterAttrs mapAttrs toposort;
+  inherit (lib.internal) nvim;
 in {
   empty = {};
 
