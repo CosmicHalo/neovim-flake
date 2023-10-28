@@ -36,13 +36,13 @@ in {
       "Set modes for mouse support. a - all, n - normal, v - visual, i - insert, c - command";
 
     lineNumberMode =
-      mkOpt (enum ["relative" "number" "relNumber" "none"]) "relNumber"
+      mkOpt (enum ["relative" "number" "relNumber" "none"]) "number"
       "How line numbers are displayed. none, relative, number, relNumber";
   };
 
   config = {
     vim = {
-      startPlugins = ["plenary-nvim"];
+      startPlugins = ["plenary-nvim" "lazy-nvim"];
 
       nmap = mkIf cfg.disableArrows {
         "<up>" = "<nop>";

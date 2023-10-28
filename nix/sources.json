@@ -119,6 +119,30 @@
         "url": "https://github.com/ellisonleao/gruvbox.nvim/archive/477c62493c82684ed510c4f70eaf83802e398898.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "indent-blankline": {
+        "branch": "master",
+        "description": "Indent guides  for Neovim",
+        "homepage": "",
+        "owner": "lukas-reineke",
+        "repo": "indent-blankline.nvim",
+        "rev": "64fdadb3ada61c4297452f7662789b01ee82ffcb",
+        "sha256": "0dwv91x63c47r0xyxcwc7vlc9b9b2baqad2xgm6r865gmx1fh31b",
+        "type": "tarball",
+        "url": "https://github.com/lukas-reineke/indent-blankline.nvim/archive/64fdadb3ada61c4297452f7662789b01ee82ffcb.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "lazy-nvim": {
+        "branch": "main",
+        "description": "💤 A modern plugin manager for Neovim",
+        "homepage": "",
+        "owner": "folke",
+        "repo": "lazy.nvim",
+        "rev": "16603c6917435d8446f7357cb61095138a417085",
+        "sha256": "0qgaimzggjfa20mxhqxpbk433283w2m7aqpg7gsvl6dg200l818r",
+        "type": "tarball",
+        "url": "https://github.com/folke/lazy.nvim/archive/16603c6917435d8446f7357cb61095138a417085.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "lsp-signature": {
         "branch": "master",
         "description": "LSP signature hint as you type",
@@ -179,6 +203,18 @@
         "url": "https://github.com/hrsh7th/nvim-cmp/archive/51260c02a8ffded8e16162dcf41a23ec90cfba62.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "nvim-cursorline": {
+        "branch": "main",
+        "description": "A plugin for neovim that highlights cursor words and lines",
+        "homepage": "",
+        "owner": "yamatsum",
+        "repo": "nvim-cursorline",
+        "rev": "804f0023692653b2b2368462d67d2a87056947f9",
+        "sha256": "1zqbykfi4mjp07y8c1kir4lxgvcaxqy9jkn558y3n1jakpk3l72j",
+        "type": "tarball",
+        "url": "https://github.com/yamatsum/nvim-cursorline/archive/804f0023692653b2b2368462d67d2a87056947f9.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "nvim-lspconfig": {
         "branch": "master",
         "description": "Quickstart configs for Nvim LSP",
@@ -215,6 +251,18 @@
         "url": "https://github.com/nvim-treesitter/nvim-treesitter-context/archive/e5c90f0f32e948b285ed2466e799a4b36f9a42d9.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "nvim-web-devicons": {
+        "branch": "master",
+        "description": "lua `fork` of vim-web-devicons for neovim",
+        "homepage": null,
+        "owner": "kyazdani42",
+        "repo": "nvim-web-devicons",
+        "rev": "5de460ca7595806044eced31e3c36c159a493857",
+        "sha256": "1ncwiha8ldxzx1g1hfisrgsvnqv05p7c19glbjp5bwbm5ihfsv04",
+        "type": "tarball",
+        "url": "https://github.com/kyazdani42/nvim-web-devicons/archive/5de460ca7595806044eced31e3c36c159a493857.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "onedark": {
         "branch": "master",
         "description": "One dark and light colorscheme for neovim >= 0.5.0 written in lua based on Atom's One Dark and Light theme. Additionally, it comes with 5 color variant styles",
@@ -237,6 +285,18 @@
         "sha256": "1sn7vpsbwpyndsjyxb4af8fvz4sfhlbavvw6jjsv3h18sdvkh7nd",
         "type": "tarball",
         "url": "https://github.com/nvim-lua/plenary.nvim/archive/50012918b2fc8357b87cff2a7f7f0446e47da174.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "rainbow-delimiters": {
+        "branch": "master",
+        "description": "Rainbow delimiters for Neovim with Tree-sitter",
+        "homepage": "https://gitlab.com/HiPhish/rainbow-delimiters.nvim",
+        "owner": "HiPhish",
+        "repo": "rainbow-delimiters.nvim",
+        "rev": "9fda1322e704acfbb5a9691e2c4303368d591367",
+        "sha256": "1crd6ybikdk768xsm769xvzia8wkg0hx9bh9h3nyak0gj779zdc4",
+        "type": "tarball",
+        "url": "https://github.com/HiPhish/rainbow-delimiters.nvim/archive/9fda1322e704acfbb5a9691e2c4303368d591367.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "telescope": {
@@ -285,6 +345,18 @@
         "sha256": "0wyz1dcm92dc83rz3hy8a0m47yy5lmpk0pwiycpn5yc8jdaxj63b",
         "type": "tarball",
         "url": "https://github.com/folke/tokyonight.nvim/archive/f247ee700b569ed43f39320413a13ba9b0aef0db.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "trouble": {
+        "branch": "main",
+        "description": "🚦 A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing.",
+        "homepage": "",
+        "owner": "folke",
+        "repo": "trouble.nvim",
+        "rev": "f1168feada93c0154ede4d1fe9183bf69bac54ea",
+        "sha256": "0n5xi4bxfaizwjny5dv0k7zqc3gl60d5g1mkcdbfnq4y5f3f0wpj",
+        "type": "tarball",
+        "url": "https://github.com/folke/trouble.nvim/archive/f1168feada93c0154ede4d1fe9183bf69bac54ea.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "vim-vsnip": {

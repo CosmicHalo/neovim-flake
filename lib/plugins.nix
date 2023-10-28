@@ -1,6 +1,5 @@
 {
   lib,
-  inputs,
   sources ? import ../nix/sources.nix,
 }: {
   rawPlugins = lib.andromeda.input.fromInputs sources;

@@ -36,7 +36,7 @@
     maximalConfig = mainConfig true;
   in
     fup.lib.mkFlake {
-      inherit self inputs lib;
+      inherit self inputs lib rawPlugins;
       channelsConfig.allowUnfree = true;
 
       ###########

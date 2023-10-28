@@ -59,7 +59,7 @@ in
         # lightbulb.enable = overrideable true;
         # lspsaga.enable = overrideable false;
         # nvimCodeActionMenu.enable = overrideable true;
-        # trouble.enable = overrideable true;
+        trouble.enable = overrideable true;
         lspSignature.enable = overrideable true;
       };
 
@@ -75,19 +75,20 @@ in
       #   liveGrepArgs.enable = overrideable true;
       # };
 
-      # vim.visuals = {
-      #   enable = overrideable true;
-      #   nvimWebDevicons.enable = overrideable true;
-      #   indentBlankline = {
-      #     enable = overrideable true;
-      #     fillChar = overrideable null;
-      #     eolChar = overrideable null;
-      #     showCurrContext = overrideable true;
-      #   };
-      #   cursorWordline = {
-      #     enable = overrideable true;
-      #     lineTimeout = overrideable 0;
-      #   };
-      # };
+      vim.visuals = {
+        enable = overrideable true;
+        rainbow-delimiters.enable = overrideable true;
+        nvimWebDevicons.enable = overrideable true;
+        indentBlankline = {
+          enable = overrideable true;
+          fillChar = overrideable null;
+          eolChar = overrideable null;
+          showCurrContext = overrideable true;
+        };
+        cursorWordline = {
+          enable = overrideable true;
+          lineTimeout = overrideable 0;
+        };
+      };
     };
   }
