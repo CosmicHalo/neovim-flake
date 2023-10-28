@@ -135,8 +135,8 @@ in {
       in
         vimConfig;
 
-      startPlugins = buildConfigPlugins cfgVim.startPlugins;
       optPlugins = buildConfigPlugins cfgVim.optPlugins;
+      startPlugins = buildConfigPlugins cfgVim.startPlugins;
 
       package =
         (pkgs.wrapNeovimUnstable cfgBuild.package (neovimConfig
@@ -152,7 +152,6 @@ in {
                 modules ? [],
                 extraSpecialArgs ? {},
                 pkgs ? config._module.args.pkgs,
-                check ? config._module.args.check,
               }:
                 import ../../modules {
                   inherit pkgs lib;

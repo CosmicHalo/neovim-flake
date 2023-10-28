@@ -181,13 +181,17 @@ in {
     }
 
     (mkIf cfg.treesitter.enable {
-      vim.treesitter.enable = true;
-      vim.treesitter.grammars = [cfg.treesitter.package];
+      vim.treesitter = {
+        enable = true;
+        grammars = [cfg.treesitter.package];
+      };
     })
 
     (mkIf cfg.lsp.enable {
-      vim.lsp.lspconfig.enable = true;
-      vim.lsp.lspconfig.sources.nix-lsp = servers.${cfg.lsp.server}.lspConfig;
+      vim.lsp.lspconfig = {
+        enable = true;
+        sources.nix-lsp = servers.${cfg.lsp.server}.lspConfig;
+      };
     })
 
     # (mkIf (cfg.format.enable && !servers.${cfg.lsp.server}.internalFormatter) {

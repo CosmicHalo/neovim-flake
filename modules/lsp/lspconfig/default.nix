@@ -17,17 +17,18 @@ in {
     {
       vim = {
         lsp.enable = true;
-        startPlugins = ["nvim-lspconfig"];
-      };
 
-      vim.luaConfigRC.lspconfig =
-        nvim.dag.entryAfter ["lsp-setup"]
-        /*
-        lua
-        */
-        ''
-          local lspconfig = require('lspconfig')
-        '';
+        startPlugins = ["nvim-lspconfig"];
+
+        luaConfigRC.lspconfig =
+          nvim.dag.entryAfter ["lsp-setup"]
+          /*
+          lua
+          */
+          ''
+            local lspconfig = require('lspconfig')
+          '';
+      };
     }
 
     {

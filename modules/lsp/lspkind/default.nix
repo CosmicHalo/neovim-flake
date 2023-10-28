@@ -22,6 +22,7 @@ in {
   config = mkIf (cfg.enable && cfg.lspkind.enable) {
     vim = {
       startPlugins = ["lspkind"];
+
       luaConfigRC.lspkind =
         nvim.dag.entryAnywhere
         /*

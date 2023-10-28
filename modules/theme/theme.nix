@@ -26,8 +26,13 @@ in {
   };
 
   config = mkIf cfg.enable {
-    vim.startPlugins = [cfg.name];
-    vim.luaConfigRC.themeSetup = nvim.dag.entryBefore ["theme"] cfg.extraConfig;
-    vim.luaConfigRC.theme = cfg.supportedThemes.${cfg.name}.setup;
+    vim = {
+      startPlugins = [cfg.name];
+
+      luaConfigRC = {
+        theme = cfg.supportedThemes.${cfg.name}.setup;
+        themeSetup = nvim.dag.entryBefore ["theme"] cfg.extraConfig;
+      };
+    };
   };
 }

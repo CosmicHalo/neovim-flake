@@ -52,63 +52,65 @@ in {
   };
 
   config = mkIf cfg.enable {
-    vim.startPlugins = ["nvim-tree-lua"];
+    vim = {
+      startPlugins = ["nvim-tree-lua"];
 
-    vim.nnoremap = {
-      "<C-n>" = ":NvimTreeToggle<CR>";
-      "<leader>tr" = ":NvimTreeRefresh<CR>";
-      "<leader>tg" = ":NvimTreeFindFile<CR>";
-      "<leader>tf" = ":NvimTreeFocus<CR>";
+      nnoremap = {
+        "<C-n>" = ":NvimTreeToggle<CR>";
+        "<leader>tr" = ":NvimTreeRefresh<CR>";
+        "<leader>tg" = ":NvimTreeFindFile<CR>";
+        "<leader>tf" = ":NvimTreeFocus<CR>";
+      };
+
+      luaConfigRC.nvimtreelua =
+        nvim.dag.entryAnywhere
+        /*
+        lua
+        */
+        ''
+          require'nvim-tree'.setup({
+            disable_netrw = ${boolToString cfg.disableNetRW},
+            hijack_netrw = ${boolToString cfg.hijackNetRW},
+            system_open = {
+              cmd = ${"'" + cfg.systemOpenCmd + "'"},
+            },
+            diagnostics = {
+              enable = ${boolToString cfg.lspDiagnostics},
+            },
+            view  = {
+              width = ${toString cfg.treeWidth},
+              side = ${"'" + cfg.treeSide + "'"},
+            },
+            tab = {
+              sync = {
+                open = ${boolToString cfg.openTreeOnNewTab}
+              },
+            },
+            renderer = {
+              indent_markers = {
+                enable = ${boolToString cfg.indentMarkers},
+              },
+              add_trailing = ${boolToString cfg.trailingSlash},
+              group_empty = ${boolToString cfg.groupEmptyFolders},
+            },
+            actions = {
+              open_file = {
+                quit_on_open = ${boolToString cfg.closeOnFileOpen},
+                resize_window = ${boolToString cfg.resizeOnFileOpen},
+              },
+            },
+            git = {
+              enable = true,
+              ignore = ${boolToString cfg.hideIgnoredGitFiles},
+            },
+            filters = {
+              dotfiles = ${boolToString cfg.hideDotFiles},
+              custom = {
+                ${builtins.concatStringsSep "\n" (builtins.map (s: "\"" + s + "\",") cfg.hideFiles)}
+              },
+            },
+          })
+        '';
     };
-
-    vim.luaConfigRC.nvimtreelua =
-      nvim.dag.entryAnywhere
-      /*
-      lua
-      */
-      ''
-        require'nvim-tree'.setup({
-          disable_netrw = ${boolToString cfg.disableNetRW},
-          hijack_netrw = ${boolToString cfg.hijackNetRW},
-          system_open = {
-            cmd = ${"'" + cfg.systemOpenCmd + "'"},
-          },
-          diagnostics = {
-            enable = ${boolToString cfg.lspDiagnostics},
-          },
-          view  = {
-            width = ${toString cfg.treeWidth},
-            side = ${"'" + cfg.treeSide + "'"},
-          },
-          tab = {
-            sync = {
-              open = ${boolToString cfg.openTreeOnNewTab}
-            },
-          },
-          renderer = {
-            indent_markers = {
-              enable = ${boolToString cfg.indentMarkers},
-            },
-            add_trailing = ${boolToString cfg.trailingSlash},
-            group_empty = ${boolToString cfg.groupEmptyFolders},
-          },
-          actions = {
-            open_file = {
-              quit_on_open = ${boolToString cfg.closeOnFileOpen},
-              resize_window = ${boolToString cfg.resizeOnFileOpen},
-            },
-          },
-          git = {
-            enable = true,
-            ignore = ${boolToString cfg.hideIgnoredGitFiles},
-          },
-          filters = {
-            dotfiles = ${boolToString cfg.hideDotFiles},
-            custom = {
-              ${builtins.concatStringsSep "\n" (builtins.map (s: "\"" + s + "\",") cfg.hideFiles)}
-            },
-          },
-        })
-      '';
   };
 }

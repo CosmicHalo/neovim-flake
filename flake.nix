@@ -3,7 +3,6 @@
 
   outputs = inputs @ {
     self,
-    fu,
     fup,
     nixpkgs,
     ...
@@ -47,8 +46,8 @@
       ];
 
       # Overlays to apply on a selected channel.
-      channels."nixpkgs".overlaysBuilder = channels: [
-        (final: prev: {
+      channels.nixpkgs.overlaysBuilder = _channels: [
+        (_final: prev: {
           inherit neovimConfiguration;
           neovim-nix = buildPkg prev [nixConfig];
         })
@@ -65,7 +64,7 @@
               vim.syntaxHighlighting = false;
               vim.languages.bash.enable = true;
               # vim.languages.html.enable = true;
-              vim.filetree.nvimTreeLua.enable = false;
+              vim.filetree.nvimTreeLua.enable = true;
               vim.languages.nix.format.type = "alejandra";
             }
           ];
@@ -81,19 +80,24 @@
             };
           };
 
+          defaultPackage = nixPkg;
           packages = {
             nix = nixPkg;
-            default = nixPkg;
           };
         }
         // {
           # Dev Outputs
           formatter = channels.nixpkgs.alejandra;
-          devShell = channels.nixpkgs.mkShell {nativeBuildInputs = [devPkg];};
+          devShells.default = channels.nixpkgs.mkShell {nativeBuildInputs = [devPkg];};
           checks.pre-commit-check = inputs.pre-commit-hooks.lib.${channels.nixpkgs.system}.run {
             src = ./.;
             hooks = {
               alejandra.enable = true;
+              deadnix.enable = true;
+              gptcommit.enable = true;
+              nil.enable = true;
+              prettier.enable = true;
+              statix.enable = true;
             };
           };
         };

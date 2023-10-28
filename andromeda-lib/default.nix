@@ -90,7 +90,7 @@ core-inputs: let
   ];
 
   lib = core-inputs.nixpkgs.lib.extend (
-    self: super: mergedLib // super
+    _final: prev: mergedLib // prev
   );
 in
   lib

@@ -191,6 +191,7 @@ let
   builtins_fetchTarball = {
     url,
     name ? null,
+    # deadnix: skip
     sha256,
   } @ attrs: let
     inherit (builtins) lessThan nixVersion fetchTarball;
@@ -203,6 +204,7 @@ let
   builtins_fetchurl = {
     url,
     name ? null,
+    # deadnix: skip
     sha256,
   } @ attrs: let
     inherit (builtins) lessThan nixVersion fetchurl;
@@ -236,7 +238,7 @@ let
       else builtins.fromJSON (builtins.readFile sourcesFile),
     system ? builtins.currentSystem,
     pkgs ? mkPkgs sources system,
-  }: rec {
+  }: {
     # The sources, i.e. the attribute set of spec name to spec
     inherit sources;
 

@@ -86,11 +86,11 @@ in {
         startPlugins = ["nvim-dap-ui"];
 
         luaConfigRC.dap-ui = nvim.dag.entryAfter ["dap-setup"] (''
-              local dapui = require"dapui"
+            local dapui = require"dapui"
 
-              dapui.setup()
-              vim.keymap.set("n", "<leader>du", dapui.toggle)
-            ''
+            dapui.setup()
+            vim.keymap.set("n", "<leader>du", dapui.toggle)
+          ''
           + (optionalString cfg.ui.autoOpen
             /*
             lua

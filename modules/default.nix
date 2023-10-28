@@ -1,11 +1,10 @@
 {
   lib,
   pkgs,
-  check ? true,
   modules ? [],
   extraSpecialArgs ? {},
 }: let
-  nvimModules = lib.nvim.module.loadModules pkgs check;
+  nvimModules = lib.nvim.module.loadModules pkgs;
 
   module = lib.evalModules {
     modules = modules ++ nvimModules;
